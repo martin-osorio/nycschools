@@ -1,4 +1,4 @@
-package com.martinosorio.a20240209_martinosorio_nycschools
+package com.martinosorio.a20240209_martinosorio_nycschools.ui
 
 class UiState<out T>(
     val status: Status,

@@ -1,6 +1,7 @@
 package com.martinosorio.a20240209_martinosorio_nycschools
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -11,7 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.Observer
+import com.martinosorio.a20240209_martinosorio_nycschools.ui.Status
 import com.martinosorio.a20240209_martinosorio_nycschools.ui.theme._20240209MartinOsorioNYCSchoolsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,19 +23,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        schoolsListViewModel.schools.observe(this, Observer {
-            when(it.status){
+        schoolsListViewModel.schools.observe(this) {
+            when (it.status) {
                 Status.SUCCESS -> {
-                    TODO()
+                    Log.d("moltag", "onCreate: observed schools success")
                 }
+
                 Status.ERROR -> {
-                    TODO()
+                    Log.d("moltag", "onCreate: observed schools error")
                 }
+
                 Status.LOADING -> {
-                    TODO()
+                    Log.d("moltag", "onCreate: observed schools loading")
                 }
             }
-        })
+        }
 
         setContent {
             _20240209MartinOsorioNYCSchoolsTheme {

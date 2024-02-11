@@ -1,4 +1,4 @@
-package com.martinosorio.a20240209_martinosorio_nycschools
+package com.martinosorio.a20240209_martinosorio_nycschools.api
 
 import dagger.Module
 import dagger.Provides
@@ -12,10 +12,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-//@InstallIn(ApplicationComponent::class) ???
 object SchoolsModule {
-    // TODO: Duplicate
-    private const val BASE_URL = "https://restcountries.eu/rest/v2/"
+    private const val BASE_URL = "https://data.cityofnewyork.us/resource/"
 
     @Singleton
     @Provides
