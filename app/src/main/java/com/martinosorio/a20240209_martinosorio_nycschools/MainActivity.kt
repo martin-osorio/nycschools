@@ -3,6 +3,7 @@ package com.martinosorio.a20240209_martinosorio_nycschools
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,13 +11,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Observer
 import com.martinosorio.a20240209_martinosorio_nycschools.ui.theme._20240209MartinOsorioNYCSchoolsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val schoolsListViewModel: SchoolsListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        schoolsListViewModel.schools.observe(this, Observer {
+            when(it.status){
+                Status.SUCCESS -> {
+                    TODO()
+                }
+                Status.ERROR -> {
+                    TODO()
+                }
+                Status.LOADING -> {
+                    TODO()
+                }
+            }
+        })
+
         setContent {
             _20240209MartinOsorioNYCSchoolsTheme {
                 // A surface container using the 'background' color from the theme
