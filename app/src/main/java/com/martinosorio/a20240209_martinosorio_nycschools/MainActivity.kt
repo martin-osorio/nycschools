@@ -18,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    // TODO: Needed here?
     private val schoolsListViewModel: SchoolsListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

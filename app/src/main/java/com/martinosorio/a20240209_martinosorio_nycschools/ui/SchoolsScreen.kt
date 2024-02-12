@@ -105,22 +105,22 @@ fun ShowList(schools: List<School>) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp, bottom = 20.dp),
+                    .padding(top = 30.dp, bottom = 30.dp),
                 textAlign = TextAlign.Center,
-                text = "Employee Directory",
+                text = "NYC Schools",
                 style = MaterialTheme.typography.headlineLarge
             )
         }
 
-        // List of employees
+        // List of schools
         items(schools.size) { index ->
-            EmployeeCard(schools[index])
+            School(schools[index])
         }
     }
 }
 
 @Composable
-fun EmployeeCard(school: School) {
+fun School(school: School) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -133,37 +133,28 @@ fun EmployeeCard(school: School) {
                 .fillMaxSize()
                 .padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 12.dp)
         ) {
-            Column(
+            Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, end = 5.dp, bottom = 8.dp)
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 2.dp),
-                    text = school.schoolName.toString(),
-                    style = MaterialTheme.typography.headlineMedium
-                )
-
-                Text(
-                    modifier = Modifier.padding(bottom = 1.dp, start = 1.dp),
-                    text = "Phone: ${school.phoneNumber}"
-                )
-
-                Text(
-                    modifier = Modifier.padding(start = 1.dp),
-                    text = "Borough: ${school.borough}"
-                )
-            }
+                    .padding(bottom = 12.dp),
+                text = school.schoolName.toString(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge
+            )
 
             Text(
-                modifier = Modifier.padding(bottom = 6.dp),
+                modifier = Modifier.padding(bottom = 2.dp),
+                text = "Phone: ${school.phoneNumber}"
+            )
+
+            // TODO: Sometimes is null...
+            Text(
+                modifier = Modifier.padding(bottom = 10.dp),
                 text = "Email: ${school.schoolEmail}"
             )
 
             Text(
-                text = "Location: ${school.location}"
+                text = school.location.toString()
             )
         }
     }
