@@ -19,12 +19,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.martinosorio.a20240209_martinosorio_nycschools.SchoolsListViewModel
+import androidx.navigation.NavController
+import com.martinosorio.a20240209_martinosorio_nycschools.SchoolsViewModel
 import com.martinosorio.a20240209_martinosorio_nycschools.api.model.School
 
 @Composable
-fun SchoolsScreen(viewModel: SchoolsListViewModel = hiltViewModel()) {
+fun SchoolsScreen(navController: NavController, viewModel: SchoolsViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -34,7 +34,8 @@ fun SchoolsScreen(viewModel: SchoolsListViewModel = hiltViewModel()) {
         when (schoolsUiState.status) {
             Status.SUCCESS -> {
                 if (schoolsUiState.data != null) {
-                    ShowSchoolsList(viewModel = viewModel, schools = schoolsUiState.data)
+                    // TODO: Improve so we don't have to keep passing these two around...?
+                    ShowSchoolsList(navController = navController, viewModel = viewModel, schools = schoolsUiState.data)
                 } else {
                     // TODO: Needed? Or handle differently?
                     ShowError(message = "Oops, data is bad!")
@@ -53,7 +54,7 @@ fun SchoolsScreen(viewModel: SchoolsListViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun ShowSchoolsList(viewModel: SchoolsListViewModel, schools: List<School>) {
+fun ShowSchoolsList(navController: NavController, viewModel: SchoolsViewModel, schools: List<School>) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -71,13 +72,13 @@ fun ShowSchoolsList(viewModel: SchoolsListViewModel, schools: List<School>) {
 
         // List of schools
         items(schools.size) { index ->
-            School(viewModel = viewModel, school = schools[index])
+            School(navController = navController, viewModel = viewModel, school = schools[index])
         }
     }
 }
 
 @Composable
-fun School(viewModel: SchoolsListViewModel, school: School) {
+fun School(navController: NavController, viewModel: SchoolsViewModel, school: School) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -85,7 +86,8 @@ fun School(viewModel: SchoolsListViewModel, school: School) {
             .clip(RoundedCornerShape(20.dp))
             .background(Color(0xFF8850a4))
             .clickable {
-                school.dbn?.let { viewModel.navigateToSchoolDetails(it) }
+                // TODO: Can this be improved?
+                school.dbn?.let { viewModel.navigateToSchoolDetails(it, navController) }
             }
     ) {
         Column(

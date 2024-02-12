@@ -19,7 +19,7 @@ object SchoolsModule {
     @Provides
     fun providesHttpLoggingInterceptor() = HttpLoggingInterceptor()
         .apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = HttpLoggingInterceptor.Level.BASIC
         }
 
     @Singleton
