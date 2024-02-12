@@ -1,13 +1,11 @@
 package com.martinosorio.a20240209_martinosorio_nycschools.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,19 +20,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.martinosorio.a20240209_martinosorio_nycschools.SchoolsListViewModel
 import com.martinosorio.a20240209_martinosorio_nycschools.api.model.School
+import com.martinosorio.a20240209_martinosorio_nycschools.api.model.Score
 
 @Composable
-fun SchoolsScreen(viewModel: SchoolsListViewModel = hiltViewModel()) {
+fun SchoolDetailsScreen(viewModel: SchoolsListViewModel = hiltViewModel()) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         val schoolsUiState = viewModel.schoolsUiState.collectAsState().value
+        val scoresUiState = viewModel.scoresUiState.collectAsState().value
 
-        when (schoolsUiState.status) {
+        when (scoresUiState.status) {
             Status.SUCCESS -> {
-                if (schoolsUiState.data != null) {
-                    ShowSchoolsList(viewModel = viewModel, schools = schoolsUiState.data)
+                if (schoolsUiState.data != null && scoresUiState.data != null) {
+                    SchoolDetails(school = schoolsUiState.data[0], score = scoresUiState.data[0])
                 } else {
                     // TODO: Needed? Or handle differently?
                     ShowError(message = "Oops, data is bad!")
@@ -42,7 +42,7 @@ fun SchoolsScreen(viewModel: SchoolsListViewModel = hiltViewModel()) {
             }
 
             Status.ERROR -> {
-                ShowError(message = schoolsUiState.message)
+                ShowError(message = scoresUiState.message)
             }
 
             Status.LOADING -> {
@@ -53,40 +53,13 @@ fun SchoolsScreen(viewModel: SchoolsListViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun ShowSchoolsList(viewModel: SchoolsListViewModel, schools: List<School>) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        // Title
-        item {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 30.dp, bottom = 30.dp),
-                textAlign = TextAlign.Center,
-                text = "NYC Schools",
-                style = MaterialTheme.typography.headlineLarge
-            )
-        }
-
-        // List of schools
-        items(schools.size) { index ->
-            School(viewModel = viewModel, school = schools[index])
-        }
-    }
-}
-
-@Composable
-fun School(viewModel: SchoolsListViewModel, school: School) {
+fun SchoolDetails(school: School, score: Score) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 10.dp, top = 6.dp, end = 10.dp, bottom = 6.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(Color(0xFF8850a4))
-            .clickable {
-                school.dbn?.let { viewModel.navigateToSchoolDetails(it) }
-            }
     ) {
         Column(
             modifier = Modifier

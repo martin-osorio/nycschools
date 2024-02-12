@@ -1,5 +1,6 @@
 package com.martinosorio.a20240209_martinosorio_nycschools
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.martinosorio.a20240209_martinosorio_nycschools.api.SchoolsRepository
@@ -46,6 +47,33 @@ class SchoolsListViewModel @Inject constructor(private val repository: SchoolsRe
             } else {
                 scoresUiStateFlow.value = UiState.error(it.body().toString(), null)
             }
+        }
+    }
+
+    public fun navigateToSchoolDetails(dbn: String) {
+        // TODO: Can this be optimized?
+
+        var school = School()
+        if (schoolsUiState.value.data != null) {
+            schoolsUiState.value.data!!.forEach {
+                if (it.dbn == dbn) {
+                    school = it
+                }
+            }
+        }
+
+        var score = Score()
+        if (scoresUiState.value.data != null) {
+            scoresUiState.value.data!!.forEach {
+                if (it.dbn == dbn) {
+                    score = it
+                }
+            }
+        }
+
+        if (school.dbn != null && score.dbn != null && school.dbn == score.dbn) {
+            // TODO: Navigate
+            Log.d("moltag", "navigateToSchoolDetails: navigate")
         }
     }
 }

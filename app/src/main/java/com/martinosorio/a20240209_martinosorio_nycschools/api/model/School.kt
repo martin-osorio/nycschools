@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class School(
     // TODO: Most of these fields are unnecessary
+    // TODO: Don't use nullables
 
     @SerializedName("dbn")
     var dbn: String? = null,
