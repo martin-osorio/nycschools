@@ -29,6 +29,7 @@ class SchoolsViewModel @Inject constructor(private val repository: SchoolsReposi
         getScores()
     }
 
+    // TODO: Improve error handling, catch timeouts
     private fun getSchools() = viewModelScope.launch {
         schoolsUiStateFlow.value = UiState.loading(null)
 
@@ -42,6 +43,7 @@ class SchoolsViewModel @Inject constructor(private val repository: SchoolsReposi
         }
     }
 
+    // TODO: Improve error handling, catch timeouts
     private fun getScores() = viewModelScope.launch {
         scoresUiStateFlow.value = UiState.loading(null)
 

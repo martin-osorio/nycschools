@@ -15,11 +15,11 @@ data class Score(
     var numOfSatTestTakers: String? = null,
 
     @SerializedName("sat_critical_reading_avg_score")
-    var satCriticalReadingAvgScore: String? = null,
+    var readingAvgScore: String? = null,
 
     @SerializedName("sat_math_avg_score")
-    var satMatchAvgScore: String? = null,
+    var mathAvgScore: String? = null,
 
     @SerializedName("sat_writing_avg_score")
-    var satWritingAvgScore: String? = null,
+    var writingAvgScore: String? = null,
 )

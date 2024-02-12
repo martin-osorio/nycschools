@@ -1,8 +1,11 @@
 package com.martinosorio.a20240209_martinosorio_nycschools.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.martinosorio.a20240209_martinosorio_nycschools.SchoolsViewModel
@@ -30,7 +34,7 @@ fun SchoolDetailsScreen(viewModel: SchoolsViewModel) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 10.dp, top = 6.dp, end = 10.dp, bottom = 6.dp)
+                .padding(all = 16.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color(0xFF8850a4))
         ) {
@@ -60,8 +64,89 @@ fun SchoolDetailsScreen(viewModel: SchoolsViewModel) {
                 )
 
                 Text(
+                    modifier = Modifier.padding(bottom = 20.dp),
                     text = school.location.toString()
                 )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth().padding(start = 50.dp, end = 50.dp)
+                ){
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(width = 2.dp, color = LightGray, shape = RoundedCornerShape(8.dp))
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 6.dp, bottom = 1.dp),
+                            text = "Average SAT Scores",
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge
+                        )
+
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 8.dp),
+                            text = "Out of ${score.numOfSatTestTakers} students",
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 2.dp, start = 50.dp, end = 50.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text(
+                                text = "Reading:",
+                                textAlign = TextAlign.Start,
+                            )
+
+                            Text(
+                                text = "${score.readingAvgScore}",
+                                textAlign = TextAlign.End,
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 2.dp, start = 50.dp, end = 50.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text(
+                                text = "Writing:",
+                                textAlign = TextAlign.Start,
+                            )
+
+                            Text(
+                                text = "${score.writingAvgScore}",
+                                textAlign = TextAlign.End,
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 8.dp, start = 50.dp, end = 50.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text(
+                                text = "Math:",
+                                textAlign = TextAlign.Start,
+                            )
+
+                            Text(
+                                text = "${score.mathAvgScore}",
+                                textAlign = TextAlign.End,
+                            )
+                        }
+                    }
+                }
             }
         }
     }
