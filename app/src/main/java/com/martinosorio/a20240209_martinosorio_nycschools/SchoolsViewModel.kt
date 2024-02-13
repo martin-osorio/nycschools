@@ -29,31 +29,37 @@ class SchoolsViewModel @Inject constructor(private val repository: SchoolsReposi
         getScores()
     }
 
-    // TODO: Improve error handling, catch timeouts
     private fun getSchools() = viewModelScope.launch {
         schoolsUiStateFlow.value = UiState.loading(null)
 
-        repository.getSchools().let {
-            if (it.isSuccessful) {
-                schoolsUiStateFlow.value = UiState.success(it.body())
-                Log.d("moltag", "getSchools: (${it.body()?.size}) \n${it.body()}")
-            } else {
-                schoolsUiStateFlow.value = UiState.error(it.body().toString(), null)
+        try {
+            repository.getSchools().let {
+                if (it.isSuccessful) {
+                    schoolsUiStateFlow.value = UiState.success(it.body())
+                    Log.d("moltag", "getSchools: (${it.body()?.size}) \n${it.body()}")
+                } else {
+                    schoolsUiStateFlow.value = UiState.error(it.body().toString(), null)
+                }
             }
+        } catch (e: Exception) {
+            schoolsUiStateFlow.value = UiState.error(e.toString(), null)
         }
     }
 
-    // TODO: Improve error handling, catch timeouts
     private fun getScores() = viewModelScope.launch {
         scoresUiStateFlow.value = UiState.loading(null)
 
-        repository.getScores().let {
-            if (it.isSuccessful) {
-                scoresUiStateFlow.value = UiState.success(it.body())
-                Log.d("moltag", "getScores: (${it.body()?.size}) \n${it.body()}")
-            } else {
-                scoresUiStateFlow.value = UiState.error(it.body().toString(), null)
+        try {
+            repository.getScores().let {
+                if (it.isSuccessful) {
+                    scoresUiStateFlow.value = UiState.success(it.body())
+                    Log.d("moltag", "getScores: (${it.body()?.size}) \n${it.body()}")
+                } else {
+                    scoresUiStateFlow.value = UiState.error(it.body().toString(), null)
+                }
             }
+        } catch (e: Exception) {
+            schoolsUiStateFlow.value = UiState.error(e.toString(), null)
         }
     }
 
