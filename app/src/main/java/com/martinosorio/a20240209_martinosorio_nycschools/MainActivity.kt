@@ -12,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.martinosorio.a20240209_martinosorio_nycschools.ui.SchoolDetailsScreen
-import com.martinosorio.a20240209_martinosorio_nycschools.ui.SchoolsScreen
+import com.martinosorio.a20240209_martinosorio_nycschools.ui.SchoolListScreen
 import com.martinosorio.a20240209_martinosorio_nycschools.ui.theme.SchoolsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SchoolsTheme {
-                // TODO: Can this be injected?
                 val navController = rememberNavController()
 
                 Surface(
@@ -37,9 +36,10 @@ class MainActivity : ComponentActivity() {
                         startDestination = NavDestinations.SchoolListScreen.destination
                     ) {
                         composable(NavDestinations.SchoolListScreen.destination) {
-                            SchoolsScreen(navController = navController, viewModel = schoolsViewModel)
+                            SchoolListScreen(navController = navController, viewModel = schoolsViewModel)
                         }
 
+                        // Improve the navigation by bundling the school's ID as part of it
                         composable(NavDestinations.SchoolDetailsScreen.destination) {
                             SchoolDetailsScreen(viewModel = schoolsViewModel)
                         }

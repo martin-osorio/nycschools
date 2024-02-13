@@ -24,7 +24,12 @@ import com.martinosorio.a20240209_martinosorio_nycschools.SchoolsViewModel
 import com.martinosorio.a20240209_martinosorio_nycschools.api.model.School
 
 @Composable
-fun SchoolsScreen(navController: NavController, viewModel: SchoolsViewModel) {
+fun SchoolListScreen(navController: NavController, viewModel: SchoolsViewModel) {
+    /*
+        The root of this composable.
+        Checks the UiState to determine whether to show loading, error, or the list of schools.
+     */
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -34,27 +39,31 @@ fun SchoolsScreen(navController: NavController, viewModel: SchoolsViewModel) {
         when (schoolsUiState.status) {
             Status.SUCCESS -> {
                 if (schoolsUiState.data != null) {
-                    // TODO: Improve so we don't have to keep passing these two around...?
-                    ShowSchoolsList(navController = navController, viewModel = viewModel, schools = schoolsUiState.data)
+                    // When we have a successful and valid response, show the list
+                    SchoolsList(navController = navController, viewModel = viewModel, schools = schoolsUiState.data)
                 } else {
-                    // TODO: Needed? Or handle differently?
-                    ShowError(message = "Oops, data is bad!")
+                    ErrorScreen(message = "Oops, data is bad!")
                 }
             }
 
             Status.ERROR -> {
-                ShowError(message = schoolsUiState.message)
+                ErrorScreen(message = schoolsUiState.message)
             }
 
             Status.LOADING -> {
-                ShowLoading()
+                // Since loading is the default UiState, this screen always shows loading until API calls have completed
+                LoadingScreen()
             }
         }
     }
 }
 
 @Composable
-fun ShowSchoolsList(navController: NavController, viewModel: SchoolsViewModel, schools: List<School>) {
+fun SchoolsList(navController: NavController, viewModel: SchoolsViewModel, schools: List<School>) {
+    /*
+        The main display for this screen, a list of schools provided by the API
+     */
+
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -79,6 +88,13 @@ fun ShowSchoolsList(navController: NavController, viewModel: SchoolsViewModel, s
 
 @Composable
 fun School(navController: NavController, viewModel: SchoolsViewModel, school: School) {
+    /*
+        The tile for a given school with some info, and click navigation to details screen
+
+        Not all fields are guaranteed to be present. Given more time,
+        I would improve this by hiding fields for which the value is missing.
+     */
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +102,11 @@ fun School(navController: NavController, viewModel: SchoolsViewModel, school: Sc
             .clip(RoundedCornerShape(20.dp))
             .background(Color(0xFF8850a4))
             .clickable {
-                // TODO: Can this be improved?
+                /*
+                    Given more time, I would improve the navigation by bundling the DBN in the navigation,
+                    this would simplify the line bellow to: navController.navigate(...)
+                    This avoids needing the viewModel here.
+                 */
                 school.dbn?.let { viewModel.navigateToSchoolDetails(it, navController) }
             }
     ) {

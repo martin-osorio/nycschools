@@ -3,7 +3,13 @@ package com.martinosorio.a20240209_martinosorio_nycschools.api.model
 import com.google.gson.annotations.SerializedName
 
 data class Score(
-    // TODO: Some of these types could be more specific
+    /*
+        This model contains objects for all fields seen in the response of the API.
+        Some of these objects could be excluded if they are known to not be needed.
+
+        Given more time and technical guidance or documentation,
+        these objects would not be nullable, and their types would be more specific.
+     */
 
     @SerializedName("dbn")
     var dbn: String? = null,

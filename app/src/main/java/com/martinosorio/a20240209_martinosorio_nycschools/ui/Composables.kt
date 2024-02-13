@@ -13,9 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/*
+    This file contains commonly used composables to be shared by various screens
+ */
 
 @Composable
-fun ShowLoading() {
+fun LoadingScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -35,7 +38,7 @@ fun ShowLoading() {
 }
 
 @Composable
-fun ShowError(message: String?) {
+fun ErrorScreen(message: String?) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

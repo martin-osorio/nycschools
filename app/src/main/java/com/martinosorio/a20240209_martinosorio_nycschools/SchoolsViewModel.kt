@@ -16,6 +16,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SchoolsViewModel @Inject constructor(private val repository: SchoolsRepository) : ViewModel() {
+    /*
+        ViewModel for our MainActivity and both our SchoolListScreen and SchoolDetailsScreen.
+
+        I used MutableStateFlow as I tend to prefer it overall.
+        However, LiveData could be a simpler and better solution for a simple state like this.
+
+        Given more time I would:
+        1.  Improve state change handling. Currently I have prevented this activity from handling its state changes.
+        2.  Improve networking. Currently, both our API calls are performed on initialization.
+            The UI state depends on the result of the getSchools call only.
+            If the getScores call fails, the UI will not show the error, and simply hide those fields.
+        3.  When the user taps a school, this viewModel remembers which school it is,
+            then the details screen asks this viewModel for the relevant school and scores based on it.
+            Improve this by not storing the target at all, but including it in the navigation.
+     */
+
     private val schoolsUiStateFlow = MutableStateFlow<UiState<List<School>>>(UiState.loading(null))
     val schoolsUiState: StateFlow<UiState<List<School>>> = schoolsUiStateFlow
 
@@ -63,12 +79,7 @@ class SchoolsViewModel @Inject constructor(private val repository: SchoolsReposi
         }
     }
 
-    fun navigateToSchoolDetails(dbn: String, navController: NavController) {
-        targetDbn = dbn
-        navController.navigate(NavDestinations.SchoolDetailsScreen.destination)
-    }
-
-    private fun getSchool(dbn: String): School {
+    private fun getTargetSchoolByDBN(dbn: String): School {
         if (schoolsUiState.value.data != null) {
             schoolsUiState.value.data!!.forEach {
                 if (it.dbn == dbn) {
@@ -80,11 +91,11 @@ class SchoolsViewModel @Inject constructor(private val repository: SchoolsReposi
         return School()
     }
 
-    fun getSchool(): School {
-        return getSchool(targetDbn)
+    fun getTargetSchool(): School {
+        return getTargetSchoolByDBN(targetDbn)
     }
 
-    private fun getScore(dbn: String): Score {
+    private fun getScoreByDBN(dbn: String): Score {
         if (scoresUiState.value.data != null) {
             scoresUiState.value.data!!.forEach {
                 if (it.dbn == dbn) {
@@ -97,6 +108,11 @@ class SchoolsViewModel @Inject constructor(private val repository: SchoolsReposi
     }
 
     fun getScore(): Score {
-        return getScore(targetDbn)
+        return getScoreByDBN(targetDbn)
+    }
+
+    fun navigateToSchoolDetails(dbn: String, navController: NavController) {
+        targetDbn = dbn
+        navController.navigate(NavDestinations.SchoolDetailsScreen.destination)
     }
 }

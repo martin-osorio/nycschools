@@ -6,8 +6,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONObject
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -16,7 +14,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object SchoolsModule {
-    private const val BASE_URL = "https://data.cityofnewyork.us/resource/"
+    private const val SCHOOLS_API_BASE_URL = "https://data.cityofnewyork.us/resource/"
 
     @Singleton
     @Provides
@@ -39,7 +37,7 @@ object SchoolsModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
+        .baseUrl(SCHOOLS_API_BASE_URL)
         .client(okHttpClient)
         .build()
 

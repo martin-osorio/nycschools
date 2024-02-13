@@ -26,11 +26,21 @@ import com.martinosorio.a20240209_martinosorio_nycschools.SchoolsViewModel
 
 @Composable
 fun SchoolDetailsScreen(viewModel: SchoolsViewModel) {
+    /*
+        This is the screen that displays the details for a specific school once the user taps it in the list of schools.
+
+        Given more time, this screen would be improved by:
+        1.  If the getScores API fails, this screen will work but some data would be missing.
+            Improve it by re-attempting the call, adding pull-to-refresh, and/or improve error messaging.
+        2.  Not all fields are guaranteed to be present. Improve by hiding fields for which the value is missing.
+        3.  Add intent to launch website when the user taps the website URL
+     */
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        val school = viewModel.getSchool()
+        val school = viewModel.getTargetSchool()
         val score = viewModel.getScore()
 
         Box(
@@ -60,12 +70,12 @@ fun SchoolDetailsScreen(viewModel: SchoolsViewModel) {
                     text = "Phone: ${school.phoneNumber}"
                 )
 
-                // TODO: Add click behavior that takes user to that website
                 Text(
                     modifier = Modifier.padding(bottom = 6.dp),
                     text = "Email: ${school.schoolEmail}"
                 )
 
+                // Given more time, add click behavior that takes user to that website
                 Text(
                     modifier = Modifier.padding(bottom = 20.dp),
                     text = "Website: ${school.website}"
