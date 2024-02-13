@@ -105,18 +105,22 @@ fun School(navController: NavController, viewModel: SchoolsViewModel, school: Sc
             )
 
             Text(
-                modifier = Modifier.padding(bottom = 2.dp),
+                modifier = Modifier.padding(bottom = 4.dp),
                 text = "Phone: ${school.phoneNumber}"
             )
 
-            // TODO: Sometimes is null...
             Text(
-                modifier = Modifier.padding(bottom = 10.dp),
+                modifier = Modifier.padding(bottom = 4.dp),
                 text = "Email: ${school.schoolEmail}"
             )
 
             Text(
-                text = school.location.toString()
+                modifier = Modifier.padding(bottom = 4.dp),
+                text = "Website: ${school.website}"
+            )
+
+            Text(
+                text = "Located in: ${school.borough}"
             )
         }
     }
